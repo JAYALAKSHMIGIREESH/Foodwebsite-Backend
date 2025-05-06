@@ -15,7 +15,7 @@ const app = express();
 // Define allowed frontend origins
 const allowedOrigins = [
   'https://foodwebsite-frontend.vercel.app',
-  'https://food-admin-peach.vercel.app',
+  'https://food-admin-opal.vercel.app',
 ];
 
 // Shared CORS config
