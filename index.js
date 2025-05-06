@@ -12,15 +12,15 @@ dotenv.config();
 
 const app = express();
 
-// CORS configuration
+// Define allowed frontend origins
 const allowedOrigins = [
   'https://foodwebsite-frontend.vercel.app',
   'https://food-admin-peach.vercel.app',
 ];
 
-app.use(cors({
+// Shared CORS config
+const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like Postman, curl, etc.)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -28,28 +28,29 @@ app.use(cors({
     }
   },
   credentials: true,
-}));
+};
 
-// Allow preflight (OPTIONS) requests for all routes
-app.options('*', cors());
+// Apply CORS middleware
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));  // Apply same options to preflight
 
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect(`${process.env.MONGO_URI}`)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+  .catch(err => console.log("MongoDB connection error:", err));
 
 // Connect to Cloudinary
 connectCloudinary();
 
-// Routes
+// API routes
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/order', orderRouter);
 
-// Base route
+// Default route
 app.get('/', (req, res) => {
   res.send('API is running');
 });
