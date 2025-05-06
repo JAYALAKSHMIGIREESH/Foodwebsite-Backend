@@ -14,7 +14,7 @@ const app = express();
 
 // CORS configuration
 const allowedOrigins = [
-  'https://foodwebsite-frontend-rl56.vercel.app',
+  'https://foodwebsite-frontend.vercel.app',
   'https://food-admin-peach.vercel.app',
 ];
 
